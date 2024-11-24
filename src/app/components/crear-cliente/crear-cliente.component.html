@@ -1,0 +1,144 @@
+<!-- crear-cliente.component.html -->
+<form [formGroup]="clienteForm" (ngSubmit)="agregarCliente()" class="flex flex-column gap-3">
+  <!-- RUT -->
+  <div class="field">
+      <label for="rut" class="block font-medium mb-2">RUT</label>
+      <span class="p-input-icon-left w-full">
+          <i class="pi pi-id-card"></i>
+
+          <!-- <p-inputMask
+          id="rut"
+          formControlName="rut"
+          mask="99.999.999-9"
+          placeholder="12.345.678-9"
+          [ngClass]="{'ng-invalid ng-dirty': submitted && f['rut'].errors}"
+          styleClass="w-full p-inputtext-sm"
+          unmask="false"
+          autoClear="false"
+          slotChar="_"
+          ></p-inputMask> -->
+          <input 
+              pInputText
+              formatorut
+              id="rut" 
+              formControlName="rut"
+              placeholder="12.345.678-9"
+              [ngClass]="{'ng-invalid ng-dirty': submitted && f['rut'].errors}"
+              class="w-full p-inputtext-sm"
+          />
+      </span>
+      <small class="p-error" *ngIf="submitted && f['rut'].errors?.['required']">RUT es requerido</small>
+      <small class="p-error" *ngIf="submitted && f['rut'].errors?.['pattern']">Formato de RUT inválido</small>
+  </div>
+
+  <!-- Nombre -->
+  <div class="field">
+      <label for="nombre" class="block font-medium mb-2">Nombre</label>
+      <span class="p-input-icon-left w-full">
+          <i class="pi pi-user"></i>
+          <input 
+              pInputText 
+              id="nombre" 
+              formControlName="nombre"
+              placeholder="Nombre completo"
+              [ngClass]="{'ng-invalid ng-dirty': submitted && f['nombre'].errors}"
+              class="w-full p-inputtext-sm"
+          />
+      </span>
+      <small class="p-error" *ngIf="submitted && f['nombre'].errors?.['required']">Nombre es requerido</small>
+  </div>
+
+  <!-- Dirección -->
+  <div class="field">
+      <label for="direccion" class="block font-medium mb-2">Dirección</label>
+      <span class="p-input-icon-left w-full">
+          <i class="pi pi-home"></i>
+          <input 
+              pInputText 
+              id="direccion" 
+              formControlName="direccion"
+              placeholder="Dirección completa"
+              [ngClass]="{'ng-invalid ng-dirty': submitted && f['direccion'].errors}"
+              class="w-full p-inputtext-sm"
+          />
+      </span>
+      <small class="p-error" *ngIf="submitted && f['direccion'].errors?.['required']">Dirección es requerida</small>
+  </div>
+
+  <!-- Teléfono -->
+  <div class="field">
+      <label for="telefono" class="block font-medium mb-2">Teléfono</label>
+      <span class="p-input-icon-left w-full">
+          <i class="pi pi-phone"></i>
+          <input 
+              pInputText 
+              id="telefono" 
+              formControlName="telefono"
+              placeholder="+56 9 12345678"
+              [ngClass]="{'ng-invalid ng-dirty': submitted && f['telefono'].errors}"
+              class="w-full p-inputtext-sm"
+          />
+      </span>
+      <small class="p-error" *ngIf="submitted && f['telefono'].errors?.['required']">Teléfono es requerido</small>
+  </div>
+
+  <!-- Email -->
+  <div class="field">
+      <label for="email" class="block font-medium mb-2">Email</label>
+      <span class="p-input-icon-left w-full">
+          <i class="pi pi-envelope"></i>
+          <input 
+              pInputText 
+              id="email" 
+              formControlName="email"
+              placeholder="email@ejemplo.com"
+              [ngClass]="{'ng-invalid ng-dirty': submitted && f['email'].errors}"
+              class="w-full p-inputtext-sm"
+          />
+      </span>
+      <small class="p-error" *ngIf="submitted && f['email'].errors?.['required']">Email es requerido</small>
+      <small class="p-error" *ngIf="submitted && f['email'].errors?.['email']">Email inválido</small>
+  </div>
+
+  <!-- Saldo Pendiente  creo que esta demas-->
+  <!-- <div class="field">
+      <label for="saldoPendiente" class="block font-medium mb-2">Saldo Pendiente</label>
+      <p-inputNumber 
+          id="saldoPendiente" 
+          formControlName="saldoPendiente"
+          mode="currency" 
+          currency="CLP" 
+          locale="es-CL"
+          [minFractionDigits]="0"
+          [showButtons]="true"
+          [min]="0"
+          buttonLayout="horizontal"
+          spinnerMode="horizontal"
+          decrementButtonClass="p-button-danger" 
+          incrementButtonClass="p-button-success" 
+          incrementButtonIcon="pi pi-plus" 
+          decrementButtonIcon="pi pi-minus"
+          class="w-full"
+          inputStyleClass="w-full p-inputtext-sm"
+      ></p-inputNumber>
+      <small class="p-error" *ngIf="submitted && f['saldoPendiente'].errors?.['required']">Saldo pendiente es requerido</small>
+  </div> -->
+
+  <!-- Botones -->
+  <div class="flex justify-content-end gap-2 mt-4">
+      <p-button 
+          label="Limpiar" 
+          icon="pi pi-refresh"
+          (onClick)="resetForm()"
+          severity="secondary"
+          size="small"
+      ></p-button>
+      <p-button 
+          label="Guardar"
+          icon="pi pi-save"
+          type="submit"
+          [loading]="false"
+          size="small"
+      ></p-button>
+  </div>
+</form>

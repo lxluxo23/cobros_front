@@ -1,0 +1,98 @@
+<div class="flex justify-content-center flex-wrap mt-8 mx-8">
+  <div
+    class="surface-card p-4 shadow-2 border-round w-full"
+    style="min-height: 20rem"
+  >
+    <!-- Toolbar y botones de agregar o eliminar -->
+    <p-toolbar styleClass="mb-4 gap-2">
+      <ng-template pTemplate="left">
+        <p-button
+          severity="success"
+          label="Agregar"
+          icon="pi pi-plus"
+          class="mr-2"
+          (click)="abrirDialogoCrearCliente()"
+        />
+      </ng-template>
+    </p-toolbar>
+
+    <!-- Contenedor con overflow -->
+    <div class="overflow-x-auto">
+      <p-table
+        [value]="clientes"
+        [paginator]="true"
+        [rows]="10"
+        responsiveLayout="stack"
+        [breakpoint]="'960px'"
+        [tableStyle]="{'min-width': '50rem'}"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>ID</th>
+            <th>RUT</th>
+            <th>Nombre</th>
+            <th>Dirección</th>
+            <th>Teléfono</th>
+            <th>Email</th>
+            <th>Saldo Pendiente</th>
+            <th>Acciones</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-cliente>
+          <tr>
+            <!-- Agregar títulos responsivos -->
+            <td><span class="p-column-title">ID</span>{{ cliente.id }}</td>
+            <td><span class="p-column-title">RUT</span>{{ cliente.rut }}</td>
+            <td>
+              <span class="p-column-title">Nombre</span>{{ cliente.nombre }}
+            </td>
+            <td>
+              <span class="p-column-title">Dirección</span>{{ cliente.direccion}}
+            </td>
+            <td>
+              <span class="p-column-title">Teléfono</span>{{ cliente.telefono }}
+            </td>
+            <td>
+              <span class="p-column-title">Email</span>{{ cliente.email }}
+            </td>
+            <td>
+              <span class="p-column-title">Saldo Pendiente</span>{{cliente.saldoPendiente | currency:'CLP' }}
+            </td>
+            <td>
+              <span class="p-column-title">Acciones</span>
+              <button
+                pButton
+                pRipple
+                label="Detalles"
+                class="mb-2 mr-2"
+              ></button>
+              <p-button
+                icon="pi pi-pencil"
+                class="mr-2"
+                [rounded]="true"
+                [outlined]="true"
+                severity="success"
+              />
+              <p-button
+                icon="pi pi-trash"
+                severity="danger"
+                [rounded]="true"
+                [outlined]="true"
+                (onClick)="confirmarEliminar(cliente)"
+              />
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>
+
+
+<!-- eliminacion de cliente -->
+<p-confirmDialog 
+  header="Confirmar eliminación" 
+  icon="pi pi-exclamation-triangle"
+  acceptLabel="Sí, eliminar"
+  rejectLabel="No, cancelar">
+</p-confirmDialog>

@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './components/login/login.component';
+import { TablaClientesComponent } from './components/tabla-clientes/tabla-clientes.component';
+
 
 const routes: Routes = [
-  {path: '', redirectTo: 'login', pathMatch: 'full'},
+  {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
+  {path: 'home',component : TablaClientesComponent}
 ];
 
 @NgModule({
