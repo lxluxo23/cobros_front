@@ -4,6 +4,7 @@ import { Cliente } from 'src/app/interfaces/cliente';
 import { ClienteService } from 'src/app/services/cliente.service';
 import { CrearClienteComponent } from '../crear-cliente/crear-cliente.component';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { DetalleClienteComponent } from '../detalle-cliente/detalle-cliente.component';
 
 @Component({
   selector: 'app-tabla-clientes',
@@ -37,7 +38,7 @@ export class TablaClientesComponent implements OnInit {
   abrirDialogoCrearCliente() {
     this.ref = this.dialogService.open(CrearClienteComponent, {
       header: 'Nuevo Cliente',
-      width: '50rem',
+      width: '70rem',
       breakpoints: {
         '960px': '75rem',
         '640px': '90%',
@@ -50,6 +51,24 @@ export class TablaClientesComponent implements OnInit {
     })
   }
 
+  abrirDialogoDetalleCliente(cliente: Cliente) {
+    console.log("abriendo dialogo detalle cliente");
+    console.log(cliente);
+    this.ref = this.dialogService.open(DetalleClienteComponent, {
+      header: 'Detalle del cliente',
+      width: '70rem',
+      breakpoints: {
+        '960px': '75rem',
+        '640px': '90%',
+        '320px': '90%'
+      },
+      data: {
+        cliente: cliente
+      }
+    })
+
+  }
+
   confirmarEliminar(client: Cliente) {
     this.confirmationService.confirm({
       message: `¿Está seguro que desea eliminar al cliente ${client.nombre}?`,
@@ -59,7 +78,7 @@ export class TablaClientesComponent implements OnInit {
     });
   }
 
-  
+
   async deleteClient(cliente: Cliente) {
 
     try {
@@ -72,7 +91,7 @@ export class TablaClientesComponent implements OnInit {
       });
       this.cargarClientes();
     } catch (error) {
-      
+
     }
 
   }
