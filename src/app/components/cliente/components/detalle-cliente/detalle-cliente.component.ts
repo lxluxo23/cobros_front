@@ -4,6 +4,8 @@ import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dy
 import { Cliente } from 'src/app/interfaces/cliente';
 import { Factura } from 'src/app/interfaces/factura';
 import { FacturaService } from 'src/app/services/factura.service';
+import {ClienteService} from "../../services/cliente.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-detalle-cliente',
@@ -13,26 +15,42 @@ import { FacturaService } from 'src/app/services/factura.service';
 export class DetalleClienteComponent implements OnInit {
 
 
-  cliente!: Cliente;
+  cliente: Cliente | null = null;
   facturas: Factura[] = [];
   constructor(
-    public config: DynamicDialogConfig,
-    public ref: DynamicDialogRef,
-    public dialogService: DialogService,
-    private FacturaService: FacturaService,
-    private messageService: MessageService
+    private route: ActivatedRoute,
+    private facturaService: FacturaService,
+    private messageService: MessageService,
+    private clienteService: ClienteService
   ) { }
 
   ngOnInit() {
-    this.cliente = this.config.data.cliente;
-    this.obtenerFacturasPorCliente();
+
+    const clienteId = this.route.snapshot.paramMap.get('id');
+    console.log('Cliente ID:', clienteId);
+    if (clienteId) {
+      this.cliente = this.clienteService.getCliente();
+      if (this.cliente) {
+        this.obtenerFacturasPorCliente();
+      } else {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Cliente no encontrado',
+          detail: 'No se ha podido encontrar el cliente seleccionado',
+          life: 3000
+        });
+        console.warn('Cliente no encontrado al inicializar el componente DetalleCliente');
+      }
+    }
   }
 
   async obtenerFacturasPorCliente() {
     try {
-      this.facturas = await this.FacturaService.obtenerFacturasPorCliente(this.cliente.id!);
-      console.log("facturas obtenidas");
-      console.log(this.facturas);
+      if (this.cliente) {
+        this.facturas = await this.facturaService.obtenerFacturasPorCliente(this.cliente.id!);
+        console.log("Facturas obtenidas");
+        console.log(this.facturas);
+      }
     } catch (error) {
       this.messageService.add({
         severity: 'error',
@@ -40,8 +58,7 @@ export class DetalleClienteComponent implements OnInit {
         detail: 'No se han podido obtener las facturas',
         life: 3000
       });
-      console.error('Error al abrir el dialogo:', error);
+      console.error('Error al obtener las facturas:', error);
     }
   }
-
 }

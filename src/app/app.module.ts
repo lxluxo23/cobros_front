@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouteReuseStrategy } from '@angular/router';
+import {RouteReuseStrategy, RouterLink} from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
@@ -15,6 +15,7 @@ import { CrearClienteComponent } from './components/cliente/components/crear-cli
 import { DialogService } from 'primeng/dynamicdialog';
 import { FormatorutDirective } from './directives/formatorut.directive';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import {provideIonicAngular} from "@ionic/angular/standalone";
 
 
 @NgModule({
@@ -25,16 +26,19 @@ import { ConfirmationService, MessageService } from 'primeng/api';
     BrowserModule,
     BrowserAnimationsModule,
     CommonModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot({
+      mode: "md"
+    }),
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
     PrimeNgModule,
     FormatorutDirective
-
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    provideIonicAngular({ mode: 'md' }),
+
     DialogService,
     MessageService,
     ConfirmationService

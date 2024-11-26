@@ -5,15 +5,18 @@ import {TablaClientesComponent} from './components/cliente/components/tabla-clie
 
 
 const routes: Routes = [
-  {path: '', redirectTo: 'home', pathMatch: 'full'},
+  {path: '', redirectTo: 'clientes', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
-  {path: 'home', component: TablaClientesComponent},
-  {path: 'clientes', loadChildren: () => import('./components/cliente/cliente.module').then(m => m.ClienteModule)}
+  {
+    path: 'clientes',
+    loadChildren: () => import('./components/cliente/cliente.module').then(m => m.ClienteModule),
+    runGuardsAndResolvers: 'always'
+  },
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules})
+    RouterModule.forRoot(routes, {onSameUrlNavigation: "reload", preloadingStrategy: PreloadAllModules})
   ],
   exports: [RouterModule]
 })

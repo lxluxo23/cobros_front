@@ -1,17 +1,15 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {CrearClienteComponent} from "./components/crear-cliente/crear-cliente.component";
 import {DetalleClienteComponent} from "./components/detalle-cliente/detalle-cliente.component";
 import {TablaClientesComponent} from "./components/tabla-clientes/tabla-clientes.component";
 import {FormatorutDirective} from "../../directives/formatorut.directive";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {PrimeNgModule} from "../../modules/PrimeNg.module";
-import {BrowserModule} from "@angular/platform-browser";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {DialogService} from "primeng/dynamicdialog";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {ClienteRouterModule} from "./cliente-router.module";
-
+import {IonicModule} from "@ionic/angular";
 
 
 @NgModule({
@@ -23,13 +21,12 @@ import {ClienteRouterModule} from "./cliente-router.module";
   ],
   imports: [
     CommonModule,
-    BrowserModule,
-    BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
     PrimeNgModule,
     FormatorutDirective,
-    ClienteRouterModule
+    ClienteRouterModule,
+    IonicModule
   ],
   exports: [
     CrearClienteComponent,
@@ -42,4 +39,5 @@ import {ClienteRouterModule} from "./cliente-router.module";
     ConfirmationService
   ]
 })
-export class ClienteModule { }
+export class ClienteModule {
+}
