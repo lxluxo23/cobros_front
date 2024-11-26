@@ -14,7 +14,9 @@ import { DetalleClienteComponent } from '../detalle-cliente/detalle-cliente.comp
 export class TablaClientesComponent implements OnInit {
 
   clientes: Cliente[] = [];
+  isLoading = true;
   ref: DynamicDialogRef | undefined;
+
 
   constructor(
     private clienteService: ClienteService,
@@ -30,6 +32,7 @@ export class TablaClientesComponent implements OnInit {
   async cargarClientes() {
     try {
       this.clientes = await this.clienteService.obtenerClientes();
+      this.isLoading = false;
     } catch (error) {
       console.error('Error al cargar los clientes:', error);
     }

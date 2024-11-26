@@ -23,6 +23,7 @@
         [paginator]="true"
         [rows]="10"
         responsiveLayout="stack"
+        [loading]="isLoading"
         [breakpoint]="'960px'"
         [tableStyle]="{'min-width': '50rem'}"
       >
@@ -91,8 +92,8 @@
 
 
 <!-- eliminacion de cliente -->
-<p-confirmDialog 
-  header="Confirmar eliminación" 
+<p-confirmDialog
+  header="Confirmar eliminación"
   icon="pi pi-exclamation-triangle"
   acceptLabel="Sí, eliminar"
   rejectLabel="No, cancelar">
