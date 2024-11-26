@@ -39,7 +39,10 @@
               "node_modules/primeicons/primeicons.css",
               "node_modules/primeflex/primeflex.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "quill-delta"
+            ]
           },
           "configurations": {
             "production": {
