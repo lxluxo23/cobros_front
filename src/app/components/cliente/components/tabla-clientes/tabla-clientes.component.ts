@@ -1,27 +1,34 @@
-import { Component, OnInit } from '@angular/core';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { Cliente } from 'src/app/interfaces/cliente';
-import { ClienteService } from 'src/app/services/cliente.service';
-import { CrearClienteComponent } from '../crear-cliente/crear-cliente.component';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { DetalleClienteComponent } from '../detalle-cliente/detalle-cliente.component';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
+import {Cliente} from 'src/app/interfaces/cliente';
+import {ClienteService} from 'src/app/components/cliente/services/cliente.service';
+import {CrearClienteComponent} from '../crear-cliente/crear-cliente.component';
+import {ConfirmationService, MessageService} from 'primeng/api';
+import {Router} from "@angular/router";
+import {NavController} from "@ionic/angular";
+
 
 @Component({
   selector: 'app-tabla-clientes',
   templateUrl: './tabla-clientes.component.html',
   styleUrls: ['./tabla-clientes.component.scss'],
 })
-export class TablaClientesComponent implements OnInit {
+export class TablaClientesComponent implements OnInit ,OnDestroy  {
 
   clientes: Cliente[] = [];
+  isLoading = true;
   ref: DynamicDialogRef | undefined;
+
 
   constructor(
     private clienteService: ClienteService,
     public dialogService: DialogService,
     public confirmationService: ConfirmationService,
-    public messageService: MessageService
-  ) { }
+    public messageService: MessageService,
+    private router: Router,
+    private navCtrl: NavController
+  ) {
+  }
 
   async ngOnInit() {
     await this.cargarClientes();
@@ -30,8 +37,11 @@ export class TablaClientesComponent implements OnInit {
   async cargarClientes() {
     try {
       this.clientes = await this.clienteService.obtenerClientes();
+
     } catch (error) {
       console.error('Error al cargar los clientes:', error);
+    } finally {
+      this.isLoading = false;
     }
   }
 
@@ -52,21 +62,13 @@ export class TablaClientesComponent implements OnInit {
   }
 
   abrirDialogoDetalleCliente(cliente: Cliente) {
-    console.log("abriendo dialogo detalle cliente");
-    console.log(cliente);
-    this.ref = this.dialogService.open(DetalleClienteComponent, {
-      header: 'Detalle del cliente',
-      width: '70rem',
-      breakpoints: {
-        '960px': '75rem',
-        '640px': '90%',
-        '320px': '90%'
-      },
-      data: {
-        cliente: cliente
-      }
-    })
+    this.clienteService.setCliente(cliente);
+    // this.navCtrl.navigateRoot(['/clientes/detalle-cliente', cliente.id], {
+    //   animated: true,
+    //   animationDirection: "forward"
+    // });
 
+    this.router.navigate(['/clientes/detalle-cliente', cliente.id]);
   }
 
   confirmarEliminar(client: Cliente) {
@@ -78,7 +80,6 @@ export class TablaClientesComponent implements OnInit {
     });
   }
 
-
   async deleteClient(cliente: Cliente) {
 
     try {
@@ -89,11 +90,14 @@ export class TablaClientesComponent implements OnInit {
         detail: 'El cliente se ha eliminado correctamente',
         life: 3000
       });
-      this.cargarClientes();
+      await this.cargarClientes();
     } catch (error) {
-
+      console.error('Error al eliminar el cliente:', error);
     }
+  }
 
+  ngOnDestroy(): void {
+    console.log('TablaClientesComponent destruido');
   }
 
 }

@@ -1,11 +1,19 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
-import { Cliente } from '../interfaces/cliente';
+import { Cliente } from '../../../interfaces/cliente';
 import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class ClienteService {
+  clienteSeleccionado: Cliente | null = null;
+
+  setCliente(cliente: Cliente) {
+    this.clienteSeleccionado = cliente;
+  }
+  getCliente(): Cliente | null {
+    return this.clienteSeleccionado;
+  }
 
   constructor() { }
 

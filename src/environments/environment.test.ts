@@ -1,4 +1,5 @@
+
 export const environment = {
-  production: true,
+  production: false,
   API_ENDPOINT: 'https://cobros.lcespedes.dev/api'
 };

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Cliente } from 'src/app/interfaces/cliente';
-import { ClienteService } from 'src/app/services/cliente.service';
+import { ClienteService } from 'src/app/components/cliente/services/cliente.service';
 import { MessageService } from 'primeng/api';
 
 @Component({
