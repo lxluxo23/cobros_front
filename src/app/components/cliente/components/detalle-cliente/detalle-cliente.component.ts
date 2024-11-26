@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { MessageService } from 'primeng/api';
-import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { Cliente } from 'src/app/interfaces/cliente';
-import { Factura } from 'src/app/interfaces/factura';
-import { FacturaService } from 'src/app/services/factura.service';
+import {Component, OnInit} from '@angular/core';
+import {MessageService} from 'primeng/api';
+import {DialogService, DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
+import {Cliente} from 'src/app/interfaces/cliente';
+import {Factura} from 'src/app/interfaces/factura';
+import {FacturaService} from 'src/app/services/factura.service';
 import {ClienteService} from "../../services/cliente.service";
 import {ActivatedRoute} from "@angular/router";
 
@@ -17,12 +17,16 @@ export class DetalleClienteComponent implements OnInit {
 
   cliente: Cliente | null = null;
   facturas: Factura[] = [];
+  facturaSeleccionada: Factura | null = null;
+  mostrarDetalles = false;
+
   constructor(
     private route: ActivatedRoute,
     private facturaService: FacturaService,
     private messageService: MessageService,
     private clienteService: ClienteService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
 
@@ -59,6 +63,21 @@ export class DetalleClienteComponent implements OnInit {
         life: 3000
       });
       console.error('Error al obtener las facturas:', error);
+    }
+  }
+
+  verDetalles(factura: Factura) {
+    this.facturaSeleccionada = factura;
+    this.mostrarDetalles = true;
+  }
+
+  getStatusSeverity(estado: string): 'success' | 'secondary' | 'info' | 'warning' | 'danger' | 'contrast' | undefined {
+    switch(estado.toUpperCase()) {
+      case 'PENDIENTE': return 'warning';
+      case 'PAGADA': return 'success';
+      case 'VENCIDA': return 'danger';
+      case 'ANULADA': return 'secondary';
+      default: return 'info';
     }
   }
 }
