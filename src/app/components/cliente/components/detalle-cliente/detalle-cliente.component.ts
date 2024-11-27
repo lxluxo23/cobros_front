@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {MessageService} from 'primeng/api';
-import {DialogService, DynamicDialogConfig, DynamicDialogRef} from 'primeng/dynamicdialog';
 import {Cliente} from 'src/app/interfaces/cliente';
 import {Factura} from 'src/app/interfaces/factura';
 import {FacturaService} from 'src/app/services/factura.service';
@@ -28,15 +27,22 @@ export class DetalleClienteComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
 
     const clienteId = this.route.snapshot.paramMap.get('id');
     console.log('Cliente ID:', clienteId);
     if (clienteId) {
       this.cliente = this.clienteService.getCliente();
       if (this.cliente) {
-        this.obtenerFacturasPorCliente();
+        await this.obtenerFacturasPorCliente();
       } else {
+
+        try {
+          this.cliente = await this.clienteService.obtenerCliente(Number(clienteId))
+          await this.obtenerFacturasPorCliente();
+        } catch (error) {
+          console.error('Error al obtener el cliente:', error);
+        }
         this.messageService.add({
           severity: 'warn',
           summary: 'Cliente no encontrado',

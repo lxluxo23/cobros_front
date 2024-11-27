@@ -26,7 +26,16 @@ export class ClienteService {
       console.error('Error al obtener los clientes:', error);
       throw error;
     }
+  }
 
+  async obtenerCliente(idCliente: number){
+    try {
+      const response = await axios.get<Cliente>(`${environment.API_ENDPOINT}/clientes/${idCliente}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error al obtener el cliente:', error);
+      throw error;
+    }
   }
 
   async agregarCliente(cliente: Cliente){

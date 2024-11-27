@@ -10,6 +10,7 @@ import {DialogService} from "primeng/dynamicdialog";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {ClienteRouterModule} from "./cliente-router.module";
 import {IonicModule} from "@ionic/angular";
+import {MesNombrePipe} from "../../pipes/mes-nombre.pipe";
 
 
 @NgModule({
@@ -26,17 +27,13 @@ import {IonicModule} from "@ionic/angular";
     PrimeNgModule,
     FormatorutDirective,
     ClienteRouterModule,
-    IonicModule
+    IonicModule,
+    MesNombrePipe
   ],
   exports: [
     CrearClienteComponent,
     DetalleClienteComponent,
     TablaClientesComponent
-  ],
-  providers: [
-    DialogService,
-    MessageService,
-    ConfirmationService
   ]
 })
 export class ClienteModule {
