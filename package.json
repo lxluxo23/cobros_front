@@ -8,7 +8,9 @@
     "ng": "ng",
     "start": "ng serve",
     "start:test": "ng serve --configuration test",
+    "start:local": "ng serve --configuration local",
     "build": "ng build",
+    "build:local": "ng build --configuration local",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint"

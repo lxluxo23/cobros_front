@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 import {LoginComponent} from './components/login/login.component';
 import {TablaClientesComponent} from './components/cliente/components/tabla-clientes/tabla-clientes.component';
+import {HashLocationStrategy, LocationStrategy} from "@angular/common";
 
 
 const routes: Routes = [
@@ -18,6 +19,7 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes, {onSameUrlNavigation: "reload", preloadingStrategy: PreloadAllModules})
   ],
+  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
   exports: [RouterModule]
 })
 export class AppRoutingModule {
