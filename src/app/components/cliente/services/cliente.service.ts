@@ -1,11 +1,19 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
-import { Cliente } from '../interfaces/cliente';
+import { Cliente } from '../../../interfaces/cliente';
 import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class ClienteService {
+  clienteSeleccionado: Cliente | null = null;
+
+  setCliente(cliente: Cliente) {
+    this.clienteSeleccionado = cliente;
+  }
+  getCliente(): Cliente | null {
+    return this.clienteSeleccionado;
+  }
 
   constructor() { }
 
@@ -18,7 +26,16 @@ export class ClienteService {
       console.error('Error al obtener los clientes:', error);
       throw error;
     }
+  }
 
+  async obtenerCliente(idCliente: number){
+    try {
+      const response = await axios.get<Cliente>(`${environment.API_ENDPOINT}/clientes/${idCliente}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error al obtener el cliente:', error);
+      throw error;
+    }
   }
 
   async agregarCliente(cliente: Cliente){

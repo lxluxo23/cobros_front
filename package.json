@@ -1,12 +1,16 @@
 {
   "name": "cobros",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "author": "Lx Development Team <contacto@lcespedes.dev>",
+  "homepage": "https://lcespedes.dev",
+  "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:test": "ng serve --configuration test",
+    "start:local": "ng serve --configuration local",
     "build": "ng build",
+    "build:local": "ng build --configuration local",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint"
