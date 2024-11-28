@@ -90,5 +90,8 @@ export class AgregarItemFacturaComponent implements OnInit {
       }
     }
   }
+  cerrarDialogo(){
+    this.ref.close();
+  }
 
 }
