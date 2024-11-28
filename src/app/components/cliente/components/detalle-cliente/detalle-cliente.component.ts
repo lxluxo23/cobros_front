@@ -36,20 +36,18 @@ export class DetalleClienteComponent implements OnInit {
       if (this.cliente) {
         await this.obtenerFacturasPorCliente();
       } else {
-
         try {
           this.cliente = await this.clienteService.obtenerCliente(Number(clienteId))
           await this.obtenerFacturasPorCliente();
         } catch (error) {
           console.error('Error al obtener el cliente:', error);
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Cliente no encontrado',
+            detail: 'No se ha podido encontrar el cliente seleccionado',
+            life: 3000
+          });
         }
-        this.messageService.add({
-          severity: 'warn',
-          summary: 'Cliente no encontrado',
-          detail: 'No se ha podido encontrar el cliente seleccionado',
-          life: 3000
-        });
-        console.warn('Cliente no encontrado al inicializar el componente DetalleCliente');
       }
     }
   }
@@ -85,5 +83,13 @@ export class DetalleClienteComponent implements OnInit {
       case 'ANULADA': return 'secondary';
       default: return 'info';
     }
+  }
+
+  abrirModalAgregarPago() {
+
+  }
+
+  abrirModalAgregarDeuda() {
+
   }
 }

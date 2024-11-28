@@ -11,6 +11,7 @@
     "start:local": "ng serve --configuration local",
     "build": "ng build",
     "build:local": "ng build --configuration local",
+    "build:android": "ng build && npx cap sync android && npx cap open android",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint"
