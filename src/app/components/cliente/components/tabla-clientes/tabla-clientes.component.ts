@@ -1,11 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
-import {Cliente} from 'src/app/interfaces/cliente';
+
 import {ClienteService} from 'src/app/components/cliente/services/cliente.service';
 import {CrearClienteComponent} from '../crear-cliente/crear-cliente.component';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {Router} from "@angular/router";
 import {NavController} from "@ionic/angular";
+import {Cliente} from "../../../../interfaces/interfaces";
 
 
 @Component({

@@ -1,10 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {MessageService} from 'primeng/api';
-import {Cliente} from 'src/app/interfaces/cliente';
-import {Factura} from 'src/app/interfaces/factura';
-import {FacturaService} from 'src/app/services/factura.service';
+
+import {FacturaService} from 'src/app/components/factura/services/factura.service';
 import {ClienteService} from "../../services/cliente.service";
 import {ActivatedRoute} from "@angular/router";
+import {Cliente, Factura} from "../../../../interfaces/interfaces";
+import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
+import {
+  AgregarItemFacturaComponent
+} from "../../../factura/components/agregar-item-factura/agregar-item-factura.component";
 
 @Component({
   selector: 'app-detalle-cliente',
@@ -13,6 +17,7 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class DetalleClienteComponent implements OnInit {
 
+  ref: DynamicDialogRef | undefined;
 
   cliente: Cliente | null = null;
   facturas: Factura[] = [];
@@ -23,7 +28,8 @@ export class DetalleClienteComponent implements OnInit {
     private route: ActivatedRoute,
     private facturaService: FacturaService,
     private messageService: MessageService,
-    private clienteService: ClienteService
+    private clienteService: ClienteService,
+    private dialogService: DialogService
   ) {
   }
 
@@ -87,9 +93,25 @@ export class DetalleClienteComponent implements OnInit {
 
   abrirModalAgregarPago() {
 
+
   }
 
   abrirModalAgregarDeuda() {
-
+    this.ref = this.dialogService.open(AgregarItemFacturaComponent, {
+      header: 'Agregar Deuda',
+      width: '90%',
+      breakpoints: {
+        '960px': '75vw',
+        '640px': '90vw'
+      },
+      data:{
+        facturaId: this.facturaSeleccionada!.id
+      }
+    })
+    this.ref.onClose.subscribe(async (item) => {
+      this.facturaSeleccionada = await this.facturaService.obtenerFacturasPorId(this.facturaSeleccionada!.id!);
+    })
   }
+
+
 }

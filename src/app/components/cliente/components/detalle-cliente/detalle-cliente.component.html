@@ -135,19 +135,28 @@
 <!-- este dialogo se podria mover a otro comnponente quizas-->
 <p-dialog
   *ngIf="facturaSeleccionada"
+  (onHide)="obtenerFacturasPorCliente()"
   [(visible)]="mostrarDetalles"
   [header]="'Detalles Factura #' + facturaSeleccionada.id"
   [modal]="true"
-  [style]="{width: '600px'}"
+  [style]="{width: '95%', 'max-width': '1200px'}"
+  [breakpoints]="{'960px': '95vw'}"
 >
+  <!-- Header -->
   <ng-template pTemplate="header">
-    <div class="flex align-items-center justify-content-between w-full">
-      <span>Detalles Factura #{{ facturaSeleccionada.id }}</span>
-      <div>
+    <div class="flex flex-column md:flex-row w-full align-items-center justify-content-between gap-2">
+      <span class="text-xl">Detalles Factura #{{ facturaSeleccionada.id }} Mes {{facturaSeleccionada.mesCorrespondiente | mesNombre}}</span>
+    </div>
+  </ng-template>
+
+  <div class="flex flex-column gap-4">
+    <!-- Botones de Acción -->
+    <div class="flex justify-content-center gap-2 mt-2">
+      <div class="hidden md:flex gap-2">
         <p-button
           label="Agregar Pago"
           icon="pi pi-plus"
-          styleClass="p-button-success mr-2"
+          styleClass="p-button-success"
           (click)="abrirModalAgregarPago()"
         ></p-button>
         <p-button
@@ -157,73 +166,128 @@
           (click)="abrirModalAgregarDeuda()"
         ></p-button>
       </div>
+      <div class="flex md:hidden gap-2">
+        <p-button
+          label="Pago"
+          icon="pi pi-plus"
+          styleClass="p-button-success p-button-sm"
+          (click)="abrirModalAgregarPago()"
+        ></p-button>
+        <p-button
+          label="Deuda"
+          icon="pi pi-plus"
+          styleClass="p-button-warning p-button-sm"
+          (click)="abrirModalAgregarDeuda()"
+        ></p-button>
+      </div>
     </div>
-  </ng-template>
+    </div>
 
+  <!-- Contenido -->
   <div class="grid">
-    <div class="col-12">
-      <h3>Información Cliente</h3>
-      <div class="p-grid">
-        <div class="p-col-6">
-          <strong>Nombre:</strong> {{ facturaSeleccionada.cliente.nombre }}
-        </div>
-        <div class="p-col-6">
-          <strong>RUT:</strong> {{ facturaSeleccionada.cliente.rut }}
-        </div>
-        <div class="p-col-12">
-          <strong>Email:</strong> {{ facturaSeleccionada.cliente.email }}
+    <!-- Información Cliente -->
+    <div class="col-12 mb-4">
+      <div class="surface-card p-4 border-round">
+        <h3 class="mt-0 mb-3">Información Cliente</h3>
+        <div class="grid">
+          <div class="col-12 md:col-4">
+            <strong>Nombre:</strong> {{ facturaSeleccionada.cliente.nombre }}
+          </div>
+          <div class="col-12 md:col-4">
+            <strong>RUT:</strong> {{ facturaSeleccionada.cliente.rut }}
+          </div>
+          <div class="col-12 md:col-4">
+            <strong>Email:</strong> {{ facturaSeleccionada.cliente.email }}
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="col-12">
-      <h3>Detalles Factura</h3>
-      <p-table
-        [value]="facturaSeleccionada.detallesFactura"
-        *ngIf="facturaSeleccionada.detallesFactura.length"
-      >
-        <ng-template pTemplate="header">
-          <tr>
-            <th>Item</th>
-            <th>Cantidad</th>
-            <th>Subtotal</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-detalle>
-          <tr>
-            <td>{{ detalle.item.nombre }}</td>
-            <td>{{ detalle.cantidad }}</td>
-            <td>{{ detalle.subtotal | currency:'CLP':'symbol':'1.0-0' }}</td>
-          </tr>
-        </ng-template>
-      </p-table>
-      <p *ngIf="!facturaSeleccionada.detallesFactura.length">
-        Sin detalles de factura
-      </p>
+    <!-- Detalles Factura -->
+    <div class="col-12 mb-4">
+      <div class="surface-card p-4 border-round">
+        <h3 class="mt-0 mb-3">Detalles Factura</h3>
+        <div class="hidden md:block">
+          <p-table
+            [value]="facturaSeleccionada.detallesFactura"
+            *ngIf="facturaSeleccionada.detallesFactura.length"
+            [scrollable]="true"
+            scrollHeight="200px"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Item</th>
+                <th>Cantidad</th>
+                <th>Subtotal</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-detalle>
+              <tr>
+                <td>{{ detalle.item.nombre }}</td>
+                <td>{{ detalle.cantidad }}</td>
+                <td>{{ detalle.subtotal | currency:'CLP':'symbol':'1.0-0' }}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+
+        <div class="block md:hidden">
+          <ul class="list-none p-0 m-0">
+            <li *ngFor="let detalle of facturaSeleccionada.detallesFactura" class="mb-3 pb-3 border-bottom-1 surface-border">
+              <strong>{{ detalle.item.nombre }}</strong><br />
+              <span>Cantidad: {{ detalle.cantidad }}</span><br />
+              <span>Subtotal: {{ detalle.subtotal | currency:'CLP':'symbol':'1.0-0' }}</span>
+            </li>
+          </ul>
+        </div>
+        <p *ngIf="!facturaSeleccionada.detallesFactura.length" class="text-center">
+          Sin detalles de factura
+        </p>
+      </div>
     </div>
 
+    <!-- Pagos -->
     <div class="col-12">
-      <h3>Pagos</h3>
-      <p-table
-        [value]="facturaSeleccionada.pagos"
-        *ngIf="facturaSeleccionada.pagos.length"
-      >
-        <ng-template pTemplate="header">
-          <tr>
-            <th>Fecha</th>
-            <th>Monto</th>
-            <th>Método Pago</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-pago>
-          <tr>
-            <td>{{ pago.fechaPago | date:'dd/MM/yyyy' }}</td>
-            <td>{{ pago.monto | currency:'CLP':'symbol':'1.0-0' }}</td>
-            <td>{{ pago.metodoPago.nombre }}</td>
-          </tr>
-        </ng-template>
-      </p-table>
-      <p *ngIf="!facturaSeleccionada.pagos.length">Sin pagos registrados</p>
+      <div class="surface-card p-4 border-round">
+        <h3 class="mt-0 mb-3">Pagos</h3>
+        <div class="hidden md:block">
+          <p-table
+            [value]="facturaSeleccionada.pagos"
+            *ngIf="facturaSeleccionada.pagos.length"
+            [scrollable]="true"
+            scrollHeight="200px"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Fecha</th>
+                <th>Monto</th>
+                <th>Método Pago</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-pago>
+              <tr>
+                <td>{{ pago.fechaPago | date:'dd/MM/yyyy' }}</td>
+                <td>{{ pago.monto | currency:'CLP':'symbol':'1.0-0' }}</td>
+                <td>{{ pago.metodoPago.nombre }}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+
+        <div class="block md:hidden">
+          <ul class="list-none p-0 m-0">
+            <li *ngFor="let pago of facturaSeleccionada.pagos" class="mb-3 pb-3 border-bottom-1 surface-border">
+              <span><strong>Fecha:</strong> {{ pago.fechaPago | date:'dd/MM/yyyy' }}</span><br />
+              <span><strong>Monto:</strong> {{ pago.monto | currency:'CLP':'symbol':'1.0-0' }}</span><br />
+              <span><strong>Método Pago:</strong> {{ pago.metodoPago.nombre }}</span>
+            </li>
+          </ul>
+        </div>
+        <p *ngIf="!facturaSeleccionada.pagos.length" class="text-center">
+          Sin pagos registrados
+        </p>
+      </div>
     </div>
   </div>
 </p-dialog>
+

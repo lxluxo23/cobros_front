@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
-import { Cliente } from '../../../interfaces/cliente';
+
 import { environment } from 'src/environments/environment';
+import {Cliente} from "../../../interfaces/interfaces";
 @Injectable({
   providedIn: 'root'
 })
