@@ -13,6 +13,11 @@ const routes: Routes = [
     loadChildren: () => import('./components/cliente/cliente.module').then(m => m.ClienteModule),
     runGuardsAndResolvers: 'always'
   },
+  {
+    path: 'facturas',
+    loadChildren: () => import('./components/factura/factura.module').then(m => m.FacturaModule),
+    runGuardsAndResolvers: 'always'
+  },
 ];
 
 @NgModule({
