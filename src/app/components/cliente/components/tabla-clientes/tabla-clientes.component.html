@@ -1,3 +1,80 @@
+<!-- version de celu xd -->
+<div class="block md:hidden h-screen overflow-hidden">
+  <div class="p-4 h-full flex flex-column">
+    <p-button
+      severity="success"
+      label="Agregar Cliente"
+      icon="pi pi-plus"
+      (click)="abrirDialogoCrearCliente()"
+      class="w-full mb-4"
+    />
+
+    <div class="flex-grow overflow-y-auto">
+      <div *ngFor="let cliente of clientes" class="mb-4">
+        <p-card [style]="{'margin-bottom': '1rem'}">
+          <ng-template pTemplate="header">
+            <div class="flex justify-content-between p-3">
+              <h3>{{ cliente.nombre }}</h3>
+              <span class="text-500">ID: {{ cliente.id }}</span>
+            </div>
+          </ng-template>
+
+          <div class="grid">
+            <div class="col-6">
+              <small class="text-500">RUT</small>
+              <p>{{ cliente.rut }}</p>
+            </div>
+            <div class="col-6">
+              <small class="text-500">Teléfono</small>
+              <p>{{ cliente.telefono }}</p>
+            </div>
+            <div class="col-12">
+              <small class="text-500">Email</small>
+              <p>{{ cliente.email }}</p>
+            </div>
+            <div class="col-12">
+              <small class="text-500">Dirección</small>
+              <p>{{ cliente.direccion }}</p>
+            </div>
+            <div class="col-12">
+              <small class="text-500">Saldo Pendiente</small>
+              <p>{{ cliente.saldoPendiente | currency:'CLP' }}</p>
+            </div>
+          </div>
+
+          <ng-template pTemplate="footer">
+            <div class="flex justify-content-between">
+              <p-button
+                label="Detalles"
+                (click)="abrirDialogoDetalleCliente(cliente)"
+                class="mr-2"
+              />
+              <div>
+                <p-button
+                  icon="pi pi-pencil"
+                  [rounded]="true"
+                  [outlined]="true"
+                  severity="success"
+                  class="mr-2"
+                />
+                <p-button
+                  icon="pi pi-trash"
+                  severity="danger"
+                  [rounded]="true"
+                  [outlined]="true"
+                  (onClick)="confirmarEliminar(cliente)"
+                />
+              </div>
+            </div>
+          </ng-template>
+        </p-card>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- version de escritorio -->
+<div class="hidden md:block">
 <div class="flex justify-content-center flex-wrap mt-8 mx-8">
   <div
     class="surface-card p-4 shadow-2 border-round w-full"
@@ -89,7 +166,7 @@
     </div>
   </div>
 </div>
-
+</div>
 
 <!-- eliminacion de cliente -->
 <p-confirmDialog
