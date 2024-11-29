@@ -50,6 +50,8 @@ export class TablaClientesComponent implements OnInit ,OnDestroy  {
     this.ref = this.dialogService.open(CrearClienteComponent, {
       header: 'Nuevo Cliente',
       width: '70rem',
+      autoZIndex: false,
+      baseZIndex:100,
       breakpoints: {
         '960px': '75rem',
         '640px': '90%',
