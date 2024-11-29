@@ -14,7 +14,7 @@ import {Cliente} from "../../../../interfaces/interfaces";
   templateUrl: './tabla-clientes.component.html',
   styleUrls: ['./tabla-clientes.component.scss'],
 })
-export class TablaClientesComponent implements OnInit ,OnDestroy  {
+export class TablaClientesComponent implements OnInit, OnDestroy {
 
   clientes: Cliente[] = [];
   isLoading = true;
@@ -50,8 +50,10 @@ export class TablaClientesComponent implements OnInit ,OnDestroy  {
     this.ref = this.dialogService.open(CrearClienteComponent, {
       header: 'Nuevo Cliente',
       width: '70rem',
-      autoZIndex: false,
-      baseZIndex:100,
+      closeOnEscape: true,
+      modal: true,
+      baseZIndex: 100,
+
       breakpoints: {
         '960px': '75rem',
         '640px': '90%',

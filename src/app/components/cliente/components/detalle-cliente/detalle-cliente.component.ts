@@ -6,9 +6,7 @@ import {ClienteService} from "../../services/cliente.service";
 import {ActivatedRoute} from "@angular/router";
 import {Cliente, Factura} from "../../../../interfaces/interfaces";
 import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
-import {
-  AgregarItemFacturaComponent
-} from "../../../factura/components/agregar-item-factura/agregar-item-factura.component";
+import {AgregarItemFacturaComponent} from "../../../factura/components/agregar-item-factura/agregar-item-factura.component";
 import {Platform} from "@ionic/angular";
 import {Browser} from "@capacitor/browser";
 
@@ -108,8 +106,7 @@ export class DetalleClienteComponent implements OnInit {
     this.ref = this.dialogService.open(AgregarItemFacturaComponent, {
       header: 'Agregar Deuda',
       width: '90%',
-      autoZIndex: false,
-      baseZIndex:100,
+      modal: true,
       breakpoints: {
         '960px': '75vw',
         '640px': '90vw'
