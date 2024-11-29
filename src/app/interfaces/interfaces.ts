@@ -1,7 +1,9 @@
 export interface FileDB {
-  id: string;
+  id?: string;
   name: string;
   type: string;
+  url?: string;
+  size?: number;
 }
 
 export interface MetodoPago {
@@ -15,6 +17,7 @@ export interface Comprobante {
   file?: FileDB;
   fecha: string;
   item?: Item | null;
+  archivo?: FileDB | null;
 }
 
 export interface Item {

@@ -167,7 +167,7 @@
                 <td>{{ detalle.cantidad }}</td>
                 <td>{{ detalle.subtotal | currency:'CLP':'symbol':'1.0-0' }}</td>
                 <td>
-                  <p-button *ngIf="detalle.item?.comprobante?.archivo" icon="pi pi-file" styleClass="p-button-rounded p-button-text" (click)="abrirArchivo(detalle.item.comprobante.archivo.url)" pTooltip="Ver archivo"></p-button>
+                  <p-button *ngIf="detalle.item?.comprobante?.archivo?.url" icon="pi pi-file" styleClass="p-button-rounded p-button-text" (click)="abrirArchivo(detalle.item.comprobante.archivo.url)" pTooltip="Ver archivo"></p-button>
                 </td>
               </tr>
             </ng-template>
@@ -180,7 +180,7 @@
               <strong>{{ detalle.item.nombre }}</strong><br />
               <span>Cantidad: {{ detalle.cantidad }}</span><br />
               <span>Subtotal: {{ detalle.subtotal | currency:'CLP':'symbol':'1.0-0' }}</span>
-              <div *ngIf="detalle.item?.comprobante?.archivo" class="mt-2">
+              <div *ngIf="detalle.item?.comprobante?.archivo?.url" class="mt-2">
                 <p-button icon="pi pi-file" label="Ver archivo" styleClass="p-button-sm p-button-text" (click)="abrirArchivo(detalle.item.comprobante.archivo.url)"></p-button>
               </div>
             </li>
