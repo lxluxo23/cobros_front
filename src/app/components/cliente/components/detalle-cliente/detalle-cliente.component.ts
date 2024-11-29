@@ -112,6 +112,10 @@ export class DetalleClienteComponent implements OnInit {
       this.facturaSeleccionada = await this.facturaService.obtenerFacturasPorId(this.facturaSeleccionada!.id!);
     })
   }
+  
+  abrirArchivo(url: string) {
+    window.open(url, '_blank');
+  }
 
 
 }

@@ -3,12 +3,7 @@
   <div class="surface-card p-4 shadow-2 border-round">
     <h1 class="text-center mb-4">Registro de Pagos - {{ cliente?.nombre }}</h1>
 
-    <p-dataView
-      [value]="facturas"
-      [rows]="5"
-      [paginator]="true"
-      layout="list"
-    >
+    <p-dataView [value]="facturas" [rows]="5" [paginator]="true" layout="list">
       <ng-template let-facturas pTemplate="list">
         <div class="grid grid-nogutter">
           <div *ngFor="let factura of facturas" class="col-12 mb-3">
@@ -18,10 +13,7 @@
                   <span class="font-bold mr-2">ID:</span>
                   <span>{{ factura.id }}</span>
                 </div>
-                <p-tag
-                  [severity]="getStatusSeverity(factura.estado)"
-                  [value]="factura.estado"
-                ></p-tag>
+                <p-tag [severity]="getStatusSeverity(factura.estado)" [value]="factura.estado"></p-tag>
               </div>
 
               <div class="mb-2">
@@ -45,11 +37,7 @@
                 <div class="text-xl font-semibold">
                   {{ factura.montoTotal | currency:'CLP':'symbol':'1.0-0' }}
                 </div>
-                <p-button
-                  icon="pi pi-eye"
-                  styleClass="p-button-info p-button-sm"
-                  (click)="verDetalles(factura)"
-                ></p-button>
+                <p-button icon="pi pi-eye" styleClass="p-button-info p-button-sm" (click)="verDetalles(factura)"></p-button>
               </div>
             </div>
           </div>
@@ -62,86 +50,63 @@
 
 <!-- version escritorio (original) -->
 <div class="hidden md:block">
-<div class="flex justify-content-center flex-wrap mt-8 mx-8">
-  <div class="surface-card p-4 shadow-2 border-round w-full" style="min-height: 20rem">
-    <div class="flex justify-content-center flex-wrap mt-4 mx-8">
-      <h1>Registro de pagos y deudas de {{ cliente?.nombre }}</h1>
-    </div>
-    <div class="overflow-x-auto">
+  <div class="flex justify-content-center flex-wrap mt-8 mx-8">
+    <div class="surface-card p-4 shadow-2 border-round w-full" style="min-height: 20rem">
+      <div class="flex justify-content-center flex-wrap mt-4 mx-8">
+        <h1>Registro de pagos y deudas de {{ cliente?.nombre }}</h1>
+      </div>
+      <div class="overflow-x-auto">
 
 
-      <div class="grid">
-        <div class="col-12">
-          <p-table
-            [value]="facturas"
-            [paginator]="true"
-            [rows]="5"
-            responsiveLayout="stack"
-            styleClass="p-datatable-gridlines"
-            [breakpoint]="'960px'"
-            [tableStyle]="{'min-width': '50rem'}"
-          >
-            <ng-template pTemplate="header">
-              <tr>
-                <th>ID</th>
-                <th>Cliente</th>
-                <th>Fecha Emisión</th>
-                <th>Mes</th>
-                <th>Monto Total</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-factura>
-              <tr>
-                <td>{{ factura.id }}</td>
-                <td>
-                  <div>{{ factura.cliente.nombre }}</div>
-                  <small class="text-muted">{{ factura.cliente.rut }}</small>
-                </td>
-                <td>{{ factura.fechaEmision | date:'dd/MM/yyyy' }}</td>
-                <td>
-                  {{ factura.mesCorrespondiente | mesNombre }}
-                </td>
-                <td>
-                  {{ factura.montoTotal | currency:'CLP':'symbol':'1.0-0' }}
-                </td>
-                <td>
-                  <p-tag
-                    [severity]="getStatusSeverity(factura.estado)"
-                    [value]="factura.estado"
-                  >
-                  </p-tag>
-                </td>
-                <td>
-                  <p-button
-                    icon="pi pi-eye"
-                    styleClass="p-button-info p-button-sm mr-2"
-                    (click)="verDetalles(factura)"
-                  >
-                  </p-button>
-                </td>
-              </tr>
-            </ng-template>
-          </p-table>
+        <div class="grid">
+          <div class="col-12">
+            <p-table [value]="facturas" [paginator]="true" [rows]="5" responsiveLayout="stack" styleClass="p-datatable-gridlines" [breakpoint]="'960px'" [tableStyle]="{'min-width': '50rem'}">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>ID</th>
+                  <th>Cliente</th>
+                  <th>Fecha Emisión</th>
+                  <th>Mes</th>
+                  <th>Monto Total</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-factura>
+                <tr>
+                  <td>{{ factura.id }}</td>
+                  <td>
+                    <div>{{ factura.cliente.nombre }}</div>
+                    <small class="text-muted">{{ factura.cliente.rut }}</small>
+                  </td>
+                  <td>{{ factura.fechaEmision | date:'dd/MM/yyyy' }}</td>
+                  <td>
+                    {{ factura.mesCorrespondiente | mesNombre }}
+                  </td>
+                  <td>
+                    {{ factura.montoTotal | currency:'CLP':'symbol':'1.0-0' }}
+                  </td>
+                  <td>
+                    <p-tag [severity]="getStatusSeverity(factura.estado)" [value]="factura.estado">
+                    </p-tag>
+                  </td>
+                  <td>
+                    <p-button icon="pi pi-eye" styleClass="p-button-info p-button-sm mr-2" (click)="verDetalles(factura)">
+                    </p-button>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-</div>
 
 
 <!-- este dialogo se podria mover a otro comnponente quizas-->
-<p-dialog
-  *ngIf="facturaSeleccionada"
-  (onHide)="obtenerFacturasPorCliente()"
-  [(visible)]="mostrarDetalles"
-  [header]="'Detalles Factura #' + facturaSeleccionada.id"
-  [modal]="true"
-  [style]="{width: '95%', 'max-width': '1200px'}"
-  [breakpoints]="{'960px': '95vw'}"
->
+<p-dialog *ngIf="facturaSeleccionada" (onHide)="obtenerFacturasPorCliente()" [(visible)]="mostrarDetalles" [header]="'Detalles Factura #' + facturaSeleccionada.id" [modal]="true" [style]="{width: '95%', 'max-width': '1200px'}" [breakpoints]="{'960px': '95vw'}">
   <!-- Header -->
   <ng-template pTemplate="header">
     <div class="flex flex-column md:flex-row w-full align-items-center justify-content-between gap-2">
@@ -153,35 +118,15 @@
     <!-- Botones de Acción -->
     <div class="flex justify-content-center gap-2 mt-2">
       <div class="hidden md:flex gap-2">
-        <p-button
-          label="Agregar Pago"
-          icon="pi pi-plus"
-          styleClass="p-button-success"
-          (click)="abrirModalAgregarPago()"
-        ></p-button>
-        <p-button
-          label="Agregar Deuda"
-          icon="pi pi-plus"
-          styleClass="p-button-warning"
-          (click)="abrirModalAgregarDeuda()"
-        ></p-button>
+        <p-button label="Agregar Pago" icon="pi pi-plus" styleClass="p-button-success" (click)="abrirModalAgregarPago()"></p-button>
+        <p-button label="Agregar Deuda" icon="pi pi-plus" styleClass="p-button-warning" (click)="abrirModalAgregarDeuda()"></p-button>
       </div>
       <div class="flex md:hidden gap-2">
-        <p-button
-          label="Pago"
-          icon="pi pi-plus"
-          styleClass="p-button-success p-button-sm"
-          (click)="abrirModalAgregarPago()"
-        ></p-button>
-        <p-button
-          label="Deuda"
-          icon="pi pi-plus"
-          styleClass="p-button-warning p-button-sm"
-          (click)="abrirModalAgregarDeuda()"
-        ></p-button>
+        <p-button label="Pago" icon="pi pi-plus" styleClass="p-button-success p-button-sm" (click)="abrirModalAgregarPago()"></p-button>
+        <p-button label="Deuda" icon="pi pi-plus" styleClass="p-button-warning p-button-sm" (click)="abrirModalAgregarDeuda()"></p-button>
       </div>
     </div>
-    </div>
+  </div>
 
   <!-- Contenido -->
   <div class="grid">
@@ -208,12 +153,7 @@
       <div class="surface-card p-4 border-round">
         <h3 class="mt-0 mb-3">Detalles Factura</h3>
         <div class="hidden md:block">
-          <p-table
-            [value]="facturaSeleccionada.detallesFactura"
-            *ngIf="facturaSeleccionada.detallesFactura.length"
-            [scrollable]="true"
-            scrollHeight="200px"
-          >
+          <p-table [value]="facturaSeleccionada.detallesFactura" *ngIf="facturaSeleccionada.detallesFactura.length" [scrollable]="true" scrollHeight="200px">
             <ng-template pTemplate="header">
               <tr>
                 <th>Item</th>
@@ -226,6 +166,9 @@
                 <td>{{ detalle.item.nombre }}</td>
                 <td>{{ detalle.cantidad }}</td>
                 <td>{{ detalle.subtotal | currency:'CLP':'symbol':'1.0-0' }}</td>
+                <td>
+                  <p-button *ngIf="detalle.item?.comprobante?.archivo" icon="pi pi-file" styleClass="p-button-rounded p-button-text" (click)="abrirArchivo(detalle.item.comprobante.archivo.url)" pTooltip="Ver archivo"></p-button>
+                </td>
               </tr>
             </ng-template>
           </p-table>
@@ -237,6 +180,9 @@
               <strong>{{ detalle.item.nombre }}</strong><br />
               <span>Cantidad: {{ detalle.cantidad }}</span><br />
               <span>Subtotal: {{ detalle.subtotal | currency:'CLP':'symbol':'1.0-0' }}</span>
+              <div *ngIf="detalle.item?.comprobante?.archivo" class="mt-2">
+                <p-button icon="pi pi-file" label="Ver archivo" styleClass="p-button-sm p-button-text" (click)="abrirArchivo(detalle.item.comprobante.archivo.url)"></p-button>
+              </div>
             </li>
           </ul>
         </div>
@@ -251,12 +197,7 @@
       <div class="surface-card p-4 border-round">
         <h3 class="mt-0 mb-3">Pagos</h3>
         <div class="hidden md:block">
-          <p-table
-            [value]="facturaSeleccionada.pagos"
-            *ngIf="facturaSeleccionada.pagos.length"
-            [scrollable]="true"
-            scrollHeight="200px"
-          >
+          <p-table [value]="facturaSeleccionada.pagos" *ngIf="facturaSeleccionada.pagos.length" [scrollable]="true" scrollHeight="200px">
             <ng-template pTemplate="header">
               <tr>
                 <th>Fecha</th>
@@ -290,4 +231,3 @@
     </div>
   </div>
 </p-dialog>
-
