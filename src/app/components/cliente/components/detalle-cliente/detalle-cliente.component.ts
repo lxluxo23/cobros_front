@@ -9,6 +9,9 @@ import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {
   AgregarItemFacturaComponent
 } from "../../../factura/components/agregar-item-factura/agregar-item-factura.component";
+import {Platform} from "@ionic/angular";
+import {Browser} from "@capacitor/browser";
+
 
 @Component({
   selector: 'app-detalle-cliente',
@@ -29,7 +32,8 @@ export class DetalleClienteComponent implements OnInit {
     private facturaService: FacturaService,
     private messageService: MessageService,
     private clienteService: ClienteService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private platform: Platform
   ) {
   }
 
@@ -112,9 +116,19 @@ export class DetalleClienteComponent implements OnInit {
       this.facturaSeleccionada = await this.facturaService.obtenerFacturasPorId(this.facturaSeleccionada!.id!);
     })
   }
-  
-  abrirArchivo(url: string) {
-    window.open(url, '_blank');
+
+  async abrirArchivo(url: string) {
+    try {
+      console.log('Abriendo archivo:', url);
+      console.log('Platform:', this.platform);
+      if (this.platform.is('capacitor')) {
+        await Browser.open({ url });
+      } else {
+        window.open(url, '_blank');
+      }
+    } catch (error) {
+      console.error('Error al abrir archivo:', error);
+    }
   }
 
 

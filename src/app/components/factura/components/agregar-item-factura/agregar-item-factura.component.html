@@ -69,7 +69,9 @@
         [auto]="false"
         chooseLabel="Seleccionar archivo"
         (onSelect)="onFileSelect($event)"
-        [maxFileSize]="1000000"
+        [maxFileSize]="104857600"
+        [invalidFileSizeMessageSummary]="'Archivo demasiado grande'"
+        [invalidFileSizeMessageDetail]="'El tamaño máximo es 100 MB'"
       ></p-fileUpload>
     </div>
   </div>
