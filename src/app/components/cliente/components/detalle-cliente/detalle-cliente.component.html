@@ -13,7 +13,10 @@
                   <span class="font-bold mr-2">ID:</span>
                   <span>{{ factura.id }}</span>
                 </div>
-                <p-tag [severity]="getStatusSeverity(factura.estado)" [value]="factura.estado"></p-tag>
+                <p-tag
+                  [severity]="getStatusSeverity(factura.estado)"
+                  [value]="factura.estado"
+                ></p-tag>
               </div>
 
               <div class="mb-2">
@@ -37,7 +40,11 @@
                 <div class="text-xl font-semibold">
                   {{ factura.montoTotal | currency:'CLP':'symbol':'1.0-0' }}
                 </div>
-                <p-button icon="pi pi-eye" styleClass="p-button-info p-button-sm" (click)="verDetalles(factura)"></p-button>
+                <p-button
+                  icon="pi pi-eye"
+                  styleClass="p-button-info p-button-sm"
+                  (click)="verDetalles(factura)"
+                ></p-button>
               </div>
             </div>
           </div>
@@ -47,7 +54,6 @@
   </div>
 </div>
 
-
 <!-- version escritorio (original) -->
 <div class="hidden md:block">
   <div class="flex justify-content-center flex-wrap mt-8 mx-8">
@@ -56,11 +62,17 @@
         <h1>Registro de pagos y deudas de {{ cliente?.nombre }}</h1>
       </div>
       <div class="overflow-x-auto">
-
-
         <div class="grid">
           <div class="col-12">
-            <p-table [value]="facturas" [paginator]="true" [rows]="5" responsiveLayout="stack" styleClass="p-datatable-gridlines" [breakpoint]="'960px'" [tableStyle]="{'min-width': '50rem'}">
+            <p-table
+              [value]="facturas"
+              [paginator]="true"
+              [rows]="5"
+              responsiveLayout="stack"
+              styleClass="p-datatable-gridlines"
+              [breakpoint]="'960px'"
+              [tableStyle]="{'min-width': '50rem'}"
+            >
               <ng-template pTemplate="header">
                 <tr>
                   <th>ID</th>
@@ -80,18 +92,22 @@
                     <small class="text-muted">{{ factura.cliente.rut }}</small>
                   </td>
                   <td>{{ factura.fechaEmision | date:'dd/MM/yyyy' }}</td>
-                  <td>
-                    {{ factura.mesCorrespondiente | mesNombre }}
+                  <td>{{ factura.mesCorrespondiente | mesNombre }}</td>
+                  <td>{{ factura.montoTotal | currency:'CLP':'symbol':'1.0-0' }}
                   </td>
                   <td>
-                    {{ factura.montoTotal | currency:'CLP':'symbol':'1.0-0' }}
-                  </td>
-                  <td>
-                    <p-tag [severity]="getStatusSeverity(factura.estado)" [value]="factura.estado">
+                    <p-tag
+                      [severity]="getStatusSeverity(factura.estado)"
+                      [value]="factura.estado"
+                    >
                     </p-tag>
                   </td>
                   <td>
-                    <p-button icon="pi pi-eye" styleClass="p-button-info p-button-sm mr-2" (click)="verDetalles(factura)">
+                    <p-button
+                      icon="pi pi-eye"
+                      styleClass="p-button-info p-button-sm mr-2"
+                      (click)="verDetalles(factura)"
+                    >
                     </p-button>
                   </td>
                 </tr>
@@ -104,140 +120,235 @@
   </div>
 </div>
 
-
 <!-- este dialogo se podria mover a otro comnponente quizas-->
-<p-dialog *ngIf="facturaSeleccionada" (onHide)="obtenerFacturasPorCliente()" [(visible)]="mostrarDetalles" [header]="'Detalles Factura #' + facturaSeleccionada.id" [modal]="true" [style]="{width: '95%', 'max-width': '1200px'}" [breakpoints]="{'960px': '95vw'}">
+<p-dialog
+  *ngIf="facturaSeleccionada"
+  (onHide)="obtenerFacturasPorCliente()"
+  [(visible)]="mostrarDetalles"
+  [header]="'Detalles Factura #' + facturaSeleccionada.id"
+  [modal]="true"
+  [style]="{width: '95%', 'max-width': '1200px'}"
+  [breakpoints]="{'960px': '95vw'}"
+>
   <!-- Header -->
   <ng-template pTemplate="header">
     <div class="flex flex-column md:flex-row w-full align-items-center justify-content-between gap-2">
-      <span class="text-xl">Detalles Factura #{{ facturaSeleccionada.id }} Mes {{facturaSeleccionada.mesCorrespondiente | mesNombre}}</span>
+      <span class="text-xl"
+      >Detalles Factura #{{ facturaSeleccionada.id }} Mes
+        {{facturaSeleccionada.mesCorrespondiente | mesNombre}}</span
+      >
     </div>
   </ng-template>
 
   <div class="flex flex-column gap-4">
-    <!-- Botones de Acción -->
-    <div class="flex justify-content-center gap-2 mt-2">
-      <div class="hidden md:flex gap-2">
-        <p-button label="Agregar Pago" icon="pi pi-plus" styleClass="p-button-success" (click)="abrirModalAgregarPago()"></p-button>
-        <p-button label="Agregar Deuda" icon="pi pi-plus" styleClass="p-button-warning" (click)="abrirModalAgregarDeuda()"></p-button>
-      </div>
-      <div class="flex md:hidden gap-2">
-        <p-button label="Pago" icon="pi pi-plus" styleClass="p-button-success p-button-sm" (click)="abrirModalAgregarPago()"></p-button>
-        <p-button label="Deuda" icon="pi pi-plus" styleClass="p-button-warning p-button-sm" (click)="abrirModalAgregarDeuda()"></p-button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Contenido -->
-  <div class="grid">
-    <!-- Información Cliente -->
-    <div class="col-12 mb-4">
-      <div class="surface-card p-4 border-round">
-        <h3 class="mt-0 mb-3">Información Cliente</h3>
-        <div class="grid">
-          <div class="col-12 md:col-4">
-            <strong>Nombre:</strong> {{ facturaSeleccionada.cliente.nombre }}
+    <!-- Resumen Financiero -->
+    <div class="surface-card p-4 border-round">
+      <h3 class="mt-0 mb-3">Resumen Financiero</h3>
+      <div class="grid">
+        <div class="col-12 md:col-3">
+          <div class="surface-ground p-3 border-round">
+            <strong>Monto Total:</strong>
+            <div class="text-xl">
+              {{ facturaSeleccionada.montoTotal |
+              currency:'CLP':'symbol':'1.0-0' }}
+            </div>
           </div>
-          <div class="col-12 md:col-4">
-            <strong>RUT:</strong> {{ facturaSeleccionada.cliente.rut }}
+        </div>
+        <div class="col-12 md:col-3">
+          <div class="surface-ground p-3 border-round">
+            <strong>Total Pagado:</strong>
+            <div class="text-xl text-green-600">
+              {{ obtenerTotalPagos() | currency:'CLP':'symbol':'1.0-0' }}
+            </div>
           </div>
-          <div class="col-12 md:col-4">
-            <strong>Email:</strong> {{ facturaSeleccionada.cliente.email }}
+        </div>
+        <div class="col-12 md:col-3">
+          <div class="surface-ground p-3 border-round">
+            <strong>Saldo Pendiente:</strong>
+            <div class="text-xl text-orange-600">
+              {{ facturaSeleccionada.montoTotal - obtenerTotalPagos() |
+              currency:'CLP':'symbol':'1.0-0' }}
+            </div>
+          </div>
+        </div>
+        <div class="col-12 md:col-3">
+          <div class="surface-ground p-3 border-round">
+            <strong>Estado:</strong>
+            <div
+              class="text-xl"
+              [ngClass]="{
+            'text-green-600': facturaSeleccionada.estado === 'PAGADA',
+            'text-orange-600': facturaSeleccionada.estado === 'PENDIENTE',
+            'text-red-600': facturaSeleccionada.estado === 'VENCIDA'
+          }"
+            >
+              {{ facturaSeleccionada.estado }}
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Detalles Factura -->
-    <div class="col-12 mb-4">
-      <div class="surface-card p-4 border-round">
-        <h3 class="mt-0 mb-3">Detalles Factura</h3>
-        <div class="hidden md:block">
-          <p-table [value]="facturaSeleccionada.detallesFactura" *ngIf="facturaSeleccionada.detallesFactura.length" [scrollable]="true" scrollHeight="200px">
-            <ng-template pTemplate="header">
-              <tr>
-                <th>Item</th>
-                <th>Cantidad</th>
-                <th>Subtotal</th>
-                <th>Acciones</th>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-detalle>
-              <tr>
-                <td>{{ detalle.item.nombre }}</td>
-                <td>{{ detalle.cantidad }}</td>
-                <td>{{ detalle.subtotal | currency:'CLP':'symbol':'1.0-0' }}</td>
-                <td>
+    <div class="flex flex-column gap-4">
+      <!-- Botones de Acción -->
+      <div class="flex justify-content-center gap-2 mt-1">
+        <div class="hidden md:flex gap-2">
+          <p-button
+            label="Agregar Pago"
+            icon="pi pi-plus"
+            styleClass="p-button-success"
+            (click)="abrirModalAgregarPago()"
+          ></p-button>
+          <p-button
+            label="Agregar Deuda"
+            icon="pi pi-plus"
+            styleClass="p-button-warning"
+            (click)="abrirModalAgregarDeuda()"
+          ></p-button>
+        </div>
+        <div class="flex md:hidden gap-2">
+          <p-button
+            label="Pago"
+            icon="pi pi-plus"
+            styleClass="p-button-success p-button-sm"
+            (click)="abrirModalAgregarPago()"
+          ></p-button>
+          <p-button
+            label="Deuda"
+            icon="pi pi-plus"
+            styleClass="p-button-warning p-button-sm"
+            (click)="abrirModalAgregarDeuda()"
+          ></p-button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contenido -->
+    <div class="grid">
+      <!-- Información Cliente -->
+      <div class="col-12 mb-2">
+        <div class="surface-card p-4 border-round">
+          <h3 class="mt-0 mb-3">Información Cliente</h3>
+          <div class="grid">
+            <div class="col-12 md:col-4">
+              <strong>Nombre:</strong> {{ facturaSeleccionada.cliente.nombre }}
+            </div>
+            <div class="col-12 md:col-4">
+              <strong>RUT:</strong> {{ facturaSeleccionada.cliente.rut }}
+            </div>
+            <div class="col-12 md:col-4">
+              <strong>Email:</strong> {{ facturaSeleccionada.cliente.email }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detalles Factura -->
+      <div class="col-12 mb-4">
+        <div class="surface-card p-4 border-round">
+          <h3 class="mt-0 mb-3">Detalles Factura</h3>
+          <div class="hidden md:block">
+            <p-table
+              [value]="facturaSeleccionada.detallesFactura"
+              *ngIf="facturaSeleccionada.detallesFactura.length"
+              [scrollable]="true"
+              scrollHeight="200px"
+            >
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Item</th>
+                  <th>Cantidad</th>
+                  <th>Subtotal</th>
+                  <th>Acciones</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-detalle>
+                <tr>
+                  <td>{{ detalle.item.nombre }}</td>
+                  <td>{{ detalle.cantidad }}</td>
+                  <td>{{ detalle.subtotal | currency:'CLP':'symbol':'1.0-0' }}</td>
+                  <td>
+                    <p-button
+                      *ngIf="detalle.item?.comprobante?.archivo?.url"
+                      icon="pi pi-file"
+                      styleClass="p-button-text"
+                      [label]="'Ver archivo'"
+                      (click)="abrirArchivo(detalle.item.comprobante.archivo.url)"
+                      pTooltip="Ver archivo"
+                    ></p-button>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+
+          <div class="block md:hidden">
+            <ul class="list-none p-0 m-0">
+              <li *ngFor="let detalle of facturaSeleccionada.detallesFactura" class="mb-3 pb-3 border-bottom-1 surface-border">
+                <strong>{{ detalle.item.nombre }}</strong><br />
+                <span>Cantidad: {{ detalle.cantidad }}</span><br />
+                <span>Subtotal: {{ detalle.subtotal |currency:'CLP':'symbol':'1.0-0' }}</span>
+                <div *ngIf="detalle.item?.comprobante?.archivo?.url as archivoUrl" class="mt-2 flex align-items-center gap-2">
+                  <span class="text-sm">Ver archivo</span>
                   <p-button
-                    *ngIf="detalle.item?.comprobante?.archivo?.url"
                     icon="pi pi-file"
                     styleClass="p-button-rounded p-button-text"
-                    (click)="abrirArchivo(detalle.item.comprobante.archivo.url)"
-                    pTooltip="Ver archivo"></p-button>
-                </td>
-              </tr>
-            </ng-template>
-          </p-table>
+                    (click)="abrirArchivo(archivoUrl)"
+                  >
+                  </p-button>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <p *ngIf="!facturaSeleccionada.detallesFactura.length" class="text-center">
+            Sin detalles de factura
+          </p>
         </div>
-
-        <div class="block md:hidden">
-          <ul class="list-none p-0 m-0">
-            <li *ngFor="let detalle of facturaSeleccionada.detallesFactura" class="mb-3 pb-3 border-bottom-1 surface-border">
-              <strong>{{ detalle.item.nombre }}</strong><br />
-              <span>Cantidad: {{ detalle.cantidad }}</span><br />
-              <span>Subtotal: {{ detalle.subtotal | currency:'CLP':'symbol':'1.0-0' }}</span>
-              <div *ngIf="detalle.item?.comprobante?.archivo?.url as archivoUrl" class="mt-2">
-                <p-button
-                  icon="pi pi-file"
-                  styleClass="p-button-rounded p-button-text"
-                  (click)="abrirArchivo(archivoUrl)"
-                  pTooltip="Ver archivo">
-                </p-button>
-              </div>
-            </li>
-          </ul>
-        </div>
-        <p *ngIf="!facturaSeleccionada.detallesFactura.length" class="text-center">
-          Sin detalles de factura
-        </p>
       </div>
-    </div>
 
-    <!-- Pagos -->
-    <div class="col-12">
-      <div class="surface-card p-4 border-round">
-        <h3 class="mt-0 mb-3">Pagos</h3>
-        <div class="hidden md:block">
-          <p-table [value]="facturaSeleccionada.pagos" *ngIf="facturaSeleccionada.pagos.length" [scrollable]="true" scrollHeight="200px">
-            <ng-template pTemplate="header">
-              <tr>
-                <th>Fecha</th>
-                <th>Monto</th>
-                <th>Método Pago</th>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-pago>
-              <tr>
-                <td>{{ pago.fechaPago | date:'dd/MM/yyyy' }}</td>
-                <td>{{ pago.monto | currency:'CLP':'symbol':'1.0-0' }}</td>
-                <td>{{ pago.metodoPago.nombre }}</td>
-              </tr>
-            </ng-template>
-          </p-table>
-        </div>
+      <!-- Pagos -->
+      <div class="col-12">
+        <div class="surface-card p-4 border-round">
+          <h3 class="mt-0 mb-3">Pagos</h3>
+          <div class="hidden md:block">
+            <p-table
+              [value]="facturaSeleccionada.pagos"
+              *ngIf="facturaSeleccionada.pagos.length"
+              [scrollable]="true"
+              scrollHeight="200px"
+            >
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Fecha</th>
+                  <th>Monto</th>
+                  <th>Método Pago</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-pago>
+                <tr>
+                  <td>{{ pago.fechaPago | date:'dd/MM/yyyy' }}</td>
+                  <td>{{ pago.monto | currency:'CLP':'symbol':'1.0-0' }}</td>
+                  <td>{{ pago.metodoPago.nombre }}</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
 
-        <div class="block md:hidden">
-          <ul class="list-none p-0 m-0">
-            <li *ngFor="let pago of facturaSeleccionada.pagos" class="mb-3 pb-3 border-bottom-1 surface-border">
-              <span><strong>Fecha:</strong> {{ pago.fechaPago | date:'dd/MM/yyyy' }}</span><br />
-              <span><strong>Monto:</strong> {{ pago.monto | currency:'CLP':'symbol':'1.0-0' }}</span><br />
-              <span><strong>Método Pago:</strong> {{ pago.metodoPago.nombre }}</span>
-            </li>
-          </ul>
+          <div class="block md:hidden">
+            <ul class="list-none p-0 m-0">
+              <li *ngFor="let pago of facturaSeleccionada.pagos" class="mb-3 pb-3 border-bottom-1 surface-border">
+                <span><strong>Fecha:</strong> {{ pago.fechaPago | date:'dd/MM/yyyy' }}</span>
+                <br />
+                <span><strong>Monto:</strong> {{ pago.monto |currency:'CLP':'symbol':'1.0-0' }}</span>
+                <br />
+                <span><strong>Método Pago:</strong> {{ pago.metodoPago.nombre }}</span>
+              </li>
+            </ul>
+          </div>
+          <p *ngIf="!facturaSeleccionada.pagos.length" class="text-center">
+            Sin pagos registrados
+          </p>
         </div>
-        <p *ngIf="!facturaSeleccionada.pagos.length" class="text-center">
-          Sin pagos registrados
-        </p>
       </div>
     </div>
   </div>

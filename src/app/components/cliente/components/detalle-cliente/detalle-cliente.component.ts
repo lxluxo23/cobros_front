@@ -95,6 +95,10 @@ export class DetalleClienteComponent implements OnInit {
     }
   }
 
+  obtenerTotalPagos(): number {
+    return this.facturaSeleccionada!.pagos.reduce((total, pago) => total + pago.monto, 0);
+  }
+
   abrirModalAgregarPago() {
 
 
@@ -104,6 +108,8 @@ export class DetalleClienteComponent implements OnInit {
     this.ref = this.dialogService.open(AgregarItemFacturaComponent, {
       header: 'Agregar Deuda',
       width: '90%',
+      autoZIndex: false,
+      baseZIndex:100,
       breakpoints: {
         '960px': '75vw',
         '640px': '90vw'
