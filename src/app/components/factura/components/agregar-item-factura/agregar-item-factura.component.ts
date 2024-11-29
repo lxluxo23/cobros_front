@@ -5,6 +5,7 @@ import {ItemService} from "../../../../services/item.service";
 import {DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
 import {DetalleFactura, Item} from "../../../../interfaces/interfaces";
 import {MessageService} from "primeng/api";
+import {AlertHelper} from "../../../../utils/alert.helpers";
 
 @Component({
   selector: 'app-agregar-item-factura',
@@ -24,7 +25,8 @@ export class AgregarItemFacturaComponent implements OnInit {
     private facturaService: FacturaService,
     public ref: DynamicDialogRef,
     public config: DynamicDialogConfig,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private alert: AlertHelper
   ) {
     this.facturaId = this.config.data.facturaId;
     this.itemForm = this.fb.group({
@@ -67,12 +69,13 @@ export class AgregarItemFacturaComponent implements OnInit {
             cantidad: this.itemForm.value.cantidad
           })
           if (respuestaDetalle.id) {
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Detalle agregado',
-              detail: 'El detalle se ha agregado correctamente',
-              life: 3000
-            });
+            this.alert.successAlert('Detalle agregado', 'El detalle se ha agregado correctamente');
+            // this.messageService.add({
+            //   severity: 'success',
+            //   summary: 'Detalle agregado',
+            //   detail: 'El detalle se ha agregado correctamente',
+            //   life: 3000
+            // });
             this.itemForm.reset();
           }
         }
@@ -93,5 +96,6 @@ export class AgregarItemFacturaComponent implements OnInit {
   cerrarDialogo(){
     this.ref.close();
   }
+
 
 }

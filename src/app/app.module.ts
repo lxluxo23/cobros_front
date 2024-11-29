@@ -17,6 +17,8 @@ import {FormatorutDirective} from './directives/formatorut.directive';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {provideIonicAngular} from "@ionic/angular/standalone";
 import {FacturaModule} from "./components/factura/factura.module";
+import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
+import {AlertHelper} from "./utils/alert.helpers";
 
 
 @NgModule({
@@ -30,6 +32,7 @@ import {FacturaModule} from "./components/factura/factura.module";
     IonicModule.forRoot({
       mode: "md"
     }),
+    SweetAlert2Module.forRoot(),
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
@@ -42,7 +45,8 @@ import {FacturaModule} from "./components/factura/factura.module";
     provideIonicAngular({mode: 'md'}),
     DialogService,
     MessageService,
-    ConfirmationService
+    ConfirmationService,
+    AlertHelper
   ],
   bootstrap: [AppComponent],
 

@@ -1,4 +1,8 @@
 <ion-app>
   <ion-router-outlet></ion-router-outlet>
-  <p-toast autoZIndex="true" ></p-toast>
+  <p-toast
+    baseZIndex="10000000"
+    autoZIndex="false"
+    [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }"
+  ></p-toast>
 </ion-app>

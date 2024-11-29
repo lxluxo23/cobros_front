@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ClienteService } from 'src/app/components/cliente/services/cliente.service';
 import { MessageService } from 'primeng/api';
+import {AlertHelper} from "../../../../utils/alert.helpers";
 
 @Component({
   selector: 'app-crear-cliente',
@@ -16,7 +17,8 @@ export class CrearClienteComponent implements OnInit {
   constructor(
     private clienteService: ClienteService,
     private fb: FormBuilder,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private alert: AlertHelper
   ) { }
 
   ngOnInit() {
@@ -40,12 +42,13 @@ export class CrearClienteComponent implements OnInit {
 
         const cliente = this.clienteForm.value;
         await this.clienteService.agregarCliente(cliente);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Cliente agregado',
-          detail: 'El cliente se ha agregado correctamente',
-          life: 3000
-        });
+        this.alert.successAlert('Cliente agregado', 'El cliente se ha agregado correctamente');
+        // this.messageService.add({
+        //   severity: 'success',
+        //   summary: 'Cliente agregado',
+        //   detail: 'El cliente se ha agregado correctamente',
+        //   life: 3000
+        // });
         this.resetForm();
       }
 
