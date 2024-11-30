@@ -1,17 +1,26 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import axios from 'axios';
-import { environment } from 'src/environments/environment';
+import {environment} from 'src/environments/environment';
 
-import {DetalleFactura, DetalleFacturaCreate, Factura} from "../../../interfaces/interfaces";
+import {
+  DetalleFactura,
+  DetalleFacturaCreate,
+  DetallePagoCreate,
+  Factura,
+  Pago,
+  PagoCreate,
+  DetallePago
+} from "../../../interfaces/interfaces";
 
 @Injectable({
   providedIn: 'root'
 })
 export class FacturaService {
 
-  constructor() { }
+  constructor() {
+  }
 
-  async obtenerFacturasPorCliente(idCliente: number){
+  async obtenerFacturasPorCliente(idCliente: number) {
     try {
       const response = await axios.get<Factura[]>(`${environment.API_ENDPOINT}/facturas/cliente/${idCliente}`);
       return response.data;
@@ -21,7 +30,7 @@ export class FacturaService {
     }
   }
 
-  async obtenerFacturasPorId(idFactura: number){
+  async obtenerFacturasPorId(idFactura: number) {
     try {
       const response = await axios.get<Factura>(`${environment.API_ENDPOINT}/facturas/${idFactura}`);
       return response.data;
@@ -37,6 +46,32 @@ export class FacturaService {
       return response.data;
     } catch (error) {
       console.error('Error al agregar detalle:', error);
+      throw error;
+    }
+  }
+
+  async crearPago(pago: PagoCreate) {
+    try {
+      const response = await axios.post<Pago>(`${environment.API_ENDPOINT}/pagos`, pago);
+      return response.data;
+    } catch (error: any) {
+      if (error.response) {
+        const errorMessage = error.response.data.message || 'Error al registrar el pago';
+        throw new Error(errorMessage);
+      }
+      throw new Error('Error de conexión al intentar registrar el pago');
+    }
+  }
+
+  async agregarDetallePago(pagoId: number, detalle: DetallePagoCreate) {
+    try {
+      const response = await axios.post<DetallePago>(
+        `${environment.API_ENDPOINT}/pagos/${pagoId}/detalles`,
+        detalle
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error al agregar detalle de pago:', error);
       throw error;
     }
   }

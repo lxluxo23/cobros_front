@@ -44,7 +44,16 @@ export interface Pago {
   fechaPago: string;
   monto: number;
   metodoPago: MetodoPago;
-  comprobante: Comprobante;
+  detallesPago : DetallePago[];
+}
+
+export interface DetallePago {
+  id: number;
+  item: Item;
+  cantidad: number;
+  montoUnitario: number;
+  montoTotal: number;
+  descripcion: string;
 }
 
 export interface Factura {
@@ -58,6 +67,12 @@ export interface Factura {
   detallesFactura: DetalleFactura[];
   pagos: Pago[];
 }
+export interface DetallePagoCreate {
+  itemId: number;
+  cantidad: number;
+  descripcion: string;
+}
+
 
 export interface DetalleFacturaCreate {
   factura: {
@@ -74,4 +89,18 @@ export interface DetalleFactura {
   item: Item;
   cantidad: number;
   subtotal: number;
+}
+
+export interface PagoCreate {
+  clienteId: number;
+  facturaId: number;
+  monto: number;
+  metodoPagoId: number;
+}
+
+
+export interface DetallePagoCreate {
+  itemId: number;
+  cantidad: number;
+  descripcion: string;
 }

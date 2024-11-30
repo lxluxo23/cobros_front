@@ -40,7 +40,10 @@ export class AlertHelper {
   }
 
   errorAlert(TEXT : string) {
-    Swal.fire({title: "Ah ocurrido un error", text: TEXT, icon: "error"})
+    Swal.fire({
+      title: "Ah ocurrido un error",
+      text: TEXT, icon: "error"
+    })
   }
 
   error_mail(Text:string){

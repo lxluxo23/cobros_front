@@ -9,6 +9,7 @@ import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
 import {AgregarItemFacturaComponent} from "../../../factura/components/agregar-item-factura/agregar-item-factura.component";
 import {Platform} from "@ionic/angular";
 import {Browser} from "@capacitor/browser";
+import {AgregarPagoComponent} from "../../../factura/components/agregar-pago/agregar-pago.component";
 
 
 @Component({
@@ -98,7 +99,21 @@ export class DetalleClienteComponent implements OnInit {
   }
 
   abrirModalAgregarPago() {
-
+    this.ref = this.dialogService.open(AgregarPagoComponent, {
+      header: 'Agregar Deuda',
+      width: '90%',
+      modal: true,
+      breakpoints: {
+        '960px': '75vw',
+        '640px': '90vw'
+      },
+      data:{
+        facturaId: this.facturaSeleccionada!.id
+      }
+    })
+    this.ref.onClose.subscribe(async (item) => {
+      this.facturaSeleccionada = await this.facturaService.obtenerFacturasPorId(this.facturaSeleccionada!.id!);
+    })
 
   }
 
