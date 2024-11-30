@@ -321,6 +321,8 @@
                   <th>Fecha</th>
                   <th>Monto</th>
                   <th>Método Pago</th>
+                  <th>Detalles</th>
+                  <th>Archivo</th>
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-pago>
@@ -328,6 +330,23 @@
                   <td>{{ pago.fechaPago | date:'dd/MM/yyyy' }}</td>
                   <td>{{ pago.monto | currency:'CLP':'symbol':'1.0-0' }}</td>
                   <td>{{ pago.metodoPago.nombre }}</td>
+                  <td>
+                    <div *ngFor="let detalle of pago.detallesPago">
+                      {{ detalle.descripcion }}
+                    </div>
+                  </td>
+                  <td>
+                    <button
+                      pButton
+                      icon="pi pi-file"
+                      class="p-button-text"
+                      [label]="'Ver archivo'"
+                      *ngFor="let detalle of pago.detallesPago"
+                      (click)="abrirArchivo(detalle.item?.comprobante?.archivo?.url)"
+                      pTooltip="Ver archivo"
+                      [disabled]="!detalle.item?.comprobante?.archivo?.url">
+                    </button>
+                  </td>
                 </tr>
               </ng-template>
             </p-table>
@@ -341,6 +360,22 @@
                 <span><strong>Monto:</strong> {{ pago.monto |currency:'CLP':'symbol':'1.0-0' }}</span>
                 <br />
                 <span><strong>Método Pago:</strong> {{ pago.metodoPago.nombre }}</span>
+                <br />
+                <div *ngFor="let detalle of pago.detallesPago">
+                  <span><strong>Detalle:</strong> {{ detalle.descripcion }}</span>
+                  <br />
+
+                  <div *ngIf="detalle.item?.comprobante?.archivo?.url as archivoUrlPago" class="mt-2 flex align-items-center gap-2">
+                    <span class="text-sm">Ver archivo</span>
+                    <button
+                      pButton
+                      icon="pi pi-eye"
+                      class="p-button-rounded p-button-text mt-2"
+                      (click)="abrirArchivo(archivoUrlPago)"
+                      >
+                    </button>
+                  </div>
+                </div>
               </li>
             </ul>
           </div>
