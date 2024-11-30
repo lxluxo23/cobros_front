@@ -43,9 +43,6 @@ export class AgregarItemFacturaComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    console.log(" el ID de factura")
-    console.log(this.facturaId)
   }
 
   async onSubmit() {

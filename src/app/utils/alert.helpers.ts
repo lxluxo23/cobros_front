@@ -19,8 +19,12 @@ export class AlertHelper {
     Swal.fire({title: TITLE, text: TEXT, icon: "warning"})
   }
 
-  successAlert(TITLE : string, TEXT : string) {
-    Swal.fire({title: TITLE, text: TEXT, icon: "success"})
+  successAlert(TITLE: string, TEXT: string) {
+    Swal.fire({
+      title: TITLE,
+      text: TEXT,
+      icon: "success",
+    })
   }
 
   createAlert(TEXT : string) {
@@ -36,7 +40,10 @@ export class AlertHelper {
   }
 
   errorAlert(TEXT : string) {
-    Swal.fire({title: "Ah ocurrido un error", text: TEXT, icon: "error"})
+    Swal.fire({
+      title: "Ah ocurrido un error",
+      text: TEXT, icon: "error"
+    })
   }
 
   error_mail(Text:string){

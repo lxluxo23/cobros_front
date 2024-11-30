@@ -8,12 +8,14 @@ import {FacturaRouterModule} from "./factura-router.module";
 import {IonicModule} from "@ionic/angular";
 import {MesNombrePipe} from "../../pipes/mes-nombre.pipe";
 import {AgregarItemFacturaComponent} from "./components/agregar-item-factura/agregar-item-factura.component";
-import {HttpClientModule, provideHttpClient} from "@angular/common/http";
+import { provideHttpClient} from "@angular/common/http";
+import {AgregarPagoComponent} from "./components/agregar-pago/agregar-pago.component";
 
 
 @NgModule({
   declarations: [
-  AgregarItemFacturaComponent
+  AgregarItemFacturaComponent,
+    AgregarPagoComponent
 
   ],
   imports: [
@@ -28,7 +30,8 @@ import {HttpClientModule, provideHttpClient} from "@angular/common/http";
 
   ],
   exports: [
-    AgregarItemFacturaComponent
+    AgregarItemFacturaComponent,
+    AgregarPagoComponent
   ],
   providers : [
     provideHttpClient()

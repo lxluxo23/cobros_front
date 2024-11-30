@@ -36,6 +36,10 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 // @import "@ionic/angular/css/palettes/dark.system.css";
 
+
+.swal2-container {
+  z-index: 1000000;
+}
 body{
     font-family: var(--font-family);
     background-color:var(--surface-ground);
